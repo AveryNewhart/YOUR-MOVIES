@@ -22,20 +22,16 @@ const typeDefs = gql`
     password: String!
   }
   type Movie {
-
     movieId: ID!
     title: String
-
     releaseYear: String
     imageURL: String
     overview: String
     reviews: [Review]
   }
   input MovieInput {
-
     movieId: ID!
     title: String
-
     releaseYear: String
     imageURL: String
     overview: String
@@ -138,4 +134,4 @@ module.exports = typeDefs;
 // ## deleteReply(replyId: ID!): Reply!
 
 //    User  createReview  CreateDatabase  Movie
-//    User  
+//    User   

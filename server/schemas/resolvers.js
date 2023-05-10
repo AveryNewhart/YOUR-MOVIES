@@ -239,33 +239,73 @@ const resolvers = {
     //   return newReview;
 
 
+    // addReview: async (_, { movieId, reviewText, reviewAuthor }, context) => {
+    //   if (context.user) {
+    //   const newReview = await Review.create({
+    //     reviewText,
+    //     reviewAuthor: context.user.username
+    //   })
+      
+
+
+    //   throw new AuthenticationError("You need to be logged in!");
+    // }
+      
+      
+    //   // await User.findOneAndUpdate(
+    //   //   { _id: context.user._id },
+    //   //   { $addToSet: { reviews } }
+    //   // )
+
+
+    //   // Add the review to the movie's reviews array
+    //   // const updatedMovie = await Movie.findByIdAndUpdate(
+    //   //   { _id: movieId },
+    //   //   { $push: { reviews: newReview._id } },
+    //   //   { new: true }
+    //   // );
+
+    // },
+
+    // addReview: async (_, { movieId, reviewText, reviewAuthor }, context) => {
+    //   if (!context.user) {
+    //     throw new AuthenticationError("You need to be logged in!");
+    //   }
+    
+    //   const newReview = await Review.create({
+    //     reviewText,
+    //     reviewAuthor: context.user.username
+    //   });
+    
+    //   const updatedMovie = await Movie.findOneAndUpdate(
+    //     { movieId },
+    //     { $push: { reviews: newReview } },
+    //     { new: true }
+    //   );
+    
+    //   return updatedMovie;
+    // },
+
     addReview: async (_, { movieId, reviewText, reviewAuthor }, context) => {
-      if (context.user) {
-      const newReview = await Review.create({
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+    
+      const newReview = {
         reviewText,
         reviewAuthor: context.user.username
-      })
-      
-
-
-      throw new AuthenticationError("You need to be logged in!");
-    }
-      
-      
-      // await User.findOneAndUpdate(
-      //   { _id: context.user._id },
-      //   { $addToSet: { reviews } }
-      // )
-
-
-      // Add the review to the movie's reviews array
-      // const updatedMovie = await Movie.findByIdAndUpdate(
-      //   { _id: movieId },
-      //   { $push: { reviews: newReview._id } },
-      //   { new: true }
-      // );
-
+      };
+    
+      // Find the movie by its movieId and push the new review into the reviews array
+      const updatedMovie = await Movie.findOneAndUpdate(
+        { movieId: movieId },
+        { $push: { reviews: newReview } },
+        { new: true }
+      );
+    
+      return updatedMovie;
     },
+    
     //   // Create a new Review object for the provided User and Movie objects with the provided input
     //   // Return the new Review object
     // },
