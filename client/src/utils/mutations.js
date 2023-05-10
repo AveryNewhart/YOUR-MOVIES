@@ -38,18 +38,38 @@ export const CREATE_USER = gql`
   }
 `;
 
+// export const ADD_REVIEW = gql`
+//   mutation addReview($reviewText: String!) {
+//     addReview(reviewText: $reviewText) {
+//       _id
+//       user
+//       text
+//       movie
+//       rating
+//       createdAt
+//     }
+//   }
+// `;
+
 export const ADD_REVIEW = gql`
-  mutation addReview($reviewText: String!) {
-    addReview(reviewText: $reviewText) {
-      _id
-      user
+  mutation addReview($movieId: String!, $reviewText: String!, $reviewAuthor: String!) {
+    addReview(movieId: $movieId, reviewText: $reviewText, reviewAuthor: $reviewAuthor) {
+      id
       text
-      movie
-      rating
       createdAt
+      rating
+      user {
+        id
+        username
+      }
+      movie {
+        id
+        title
+      }
     }
   }
 `;
+
  
 export const ADD_COMMENT = gql`
   mutation addComment($reviewId: ID!, $commentText: String!) {
