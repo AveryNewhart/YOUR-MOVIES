@@ -107,13 +107,13 @@ const UserCard = () => {
         <Card style={styles.cardStyles}>
           <Card.Body>
             <Card.Title>{user.username || 'User Name'}</Card.Title>
-            <Card.Subtitle>Followers: {user.followers.length || 0}</Card.Subtitle>
-            <Card.Subtitle>Following: {user.followings.length || 0}</Card.Subtitle>
-            {isFollowing ? (
+            {/* <Card.Subtitle>Followers: {user.followers.length || 0}</Card.Subtitle>
+            <Card.Subtitle>Following: {user.followings.length || 0}</Card.Subtitle> */}
+            {/* {isFollowing ? (
               <Button variant="primary" style={styles.btnStyles} onClick={handleRemoveFollower}>Unfollow</Button>
             ) : (
               <Button variant="primary" style={styles.btnStyles} onClick={handleAddFollower}>Follow</Button>
-            )}
+            )} */}
           </Card.Body>
         </Card>
       );
