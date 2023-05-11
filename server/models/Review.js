@@ -40,15 +40,15 @@ const reviewSchema = new Schema({
   ],
 });
 
-reviewSchema.pre("save", async function (next) {
-  const user = await User.findById(this.user);
-  if (!user.watched.includes(this.title)) {
-    throw new Error(
-      "You cannot review a movie that is not in your watched movies list."
-    );
-  }
-  next();
-});
+// reviewSchema.pre("save", async function (next) {
+//   const user = await User.findById(this.user);
+//   if (!user.watched.includes(this.title)) {
+//     throw new Error(
+//       "You cannot review a movie that is not in your watched movies list."
+//     );
+//   }
+//   next();
+// });
 
 // const Review = model("Review", reviewSchema);
 

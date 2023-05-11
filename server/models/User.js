@@ -40,26 +40,27 @@ const UserSchema = new Schema({
   //     ref: "Movie",
   //   },
   // ],
-  followers: [
-    {
-      type: Schema.Types.String,
-      // unique: true,
-      ref: "User",
-    },
-  ],
-  followings: [
-    {
-      type: Schema.Types.String,
-     //  unique: true,
-      ref: "User",
-    },
-  ],
-  reviews: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Review",
-    },
-  ],
+  // followers: [
+  //   {
+  //     type: Schema.Types.String,
+  //     // unique: true,
+  //     ref: "User",
+  //   },
+  // ],
+  // followings: [
+  //   {
+  //     type: Schema.Types.String,
+  //    //  unique: true,
+  //     ref: "User",
+  //   },
+  // ],
+  // reviews: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "Review",
+  //   },
+  // ],
+  reviews: [reviewSchema],
 });
 
 UserSchema.pre("save", async function (next) {
