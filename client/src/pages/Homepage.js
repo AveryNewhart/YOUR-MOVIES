@@ -9,17 +9,16 @@ export default function Welcome() {
     <div className='make-big'>
       <img className='thePic' src={ ThePic } alt='' />
       <div className='theTitle'>
-        <h1>Flick Tracker</h1>
+        <h1>YOUR MOVIES</h1>
       </div>
       <div className='theText'>
-      <h2 className='h2Text'>Join Flick Tracker today and start exploring the world of movies like never before.</h2>
+      <h2 className='h2Text'>Create Your Personal Movie Collection with YOUR MOVIES</h2>
       </div>
       <div className='theMessage'>
-        <p className='homepageText'>Are you tired of scrolling endlessly through streaming platforms searching for your next movie to watch? 
-          Look no further than Flick Tracker - the ultimate movie review website. With Flick Tracker, you can save movies to 
-          your "watched" and "watchlist" sections, keeping track of all the films you've seen and ones you're excited to watch. 
-          But that's not all - Flick Tracker also allows you to follow other users and see what movies they've added to their lists. 
-          You can even post your own reviews and ratings, sharing your thoughts with the Flick Tracker community.</p>
+        <p className='homepageText'>Are you a movie buff looking for an exciting new way to keep track of your favorite films? 
+        Look no further than YOUR MOVIES, the ultimate movie website! And the best part? By creating an account, you can 
+        quickly search for any movie you want and add it to your watched or watchlist. Plus, there is the option to write reviews on 
+        the movies you've seen. Say goodbye to disorganized movie lists and hello to YOUR MOVIES!</p>
         {/* <br></br>
         <p>dlkjhbdkjncljkdncjklsdncljdkncljkdnckljsncdlkjsdncljkdsncdsjklncdskjlnckdj</p>
         <br></br>

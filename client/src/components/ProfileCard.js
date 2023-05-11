@@ -3,6 +3,7 @@ import { Card } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
 import { useQuery } from '@apollo/client';
 import { QUERY_PROTECTED } from "../utils/queries";
+import "../styles/App.css";
 
 const styles = {
   cardStyles: {
@@ -37,9 +38,9 @@ const ProfileCard = () => {
         src={user.avatarUrl || 'https://via.placeholder.com/150'}
         style={{ borderRadius: '50%', width: '150px', height: '150px', margin: 'auto' }} /> */}
       <Card.Body>
-        <Card.Title>{user.username || 'User Name'}</Card.Title>
-        <Card.Subtitle>Followers: {user.followers || 0}</Card.Subtitle>
-        <Card.Subtitle>Following: {user.following || 0}</Card.Subtitle>
+        <Card.Title className='centerUser'>{user.username || 'User Name'}</Card.Title>
+        {/* <Card.Subtitle>Followers: {user.followers || 0}</Card.Subtitle>
+        <Card.Subtitle>Following: {user.following || 0}</Card.Subtitle> */}
         {/* <Card.Text>
           {user.bio || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
         </Card.Text> */}

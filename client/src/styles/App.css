@@ -18,3 +18,7 @@ body {
 .searchBar {
   width: 100vw;
 }
+
+.centerUser {
+  text-align: center;
+}
