@@ -16,11 +16,6 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import SearchedContent from './pages/Searchedcontent';
-import Dashboard from './pages/Dashboard';
-import User from './pages/User';
-// import { ProtectedRoute } from './components/Nav';
-
-// export const UserContext = React.createContext();
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -70,49 +65,21 @@ function App() {
                 element={<Homepage />}
               />
               <Route 
-                path="/dashboard"
-                element={<Dashboard />}
-              />
-                {/* <Route
-          path="/dashboard"
-          render={() => (isLoggedIn ? <Dashboard /> : <Navigate to="/login" />)}
-        /> */}
-              <Route 
                 path="/login"
                 element={<Login />}
               />
-                      {/* <Route path="/login" render={() => <Login setIsLoggedIn={setIsLoggedIn} />} /> */}
               <Route 
                 path="/signup" 
                 element={<Signup />}
               />
                   <Route 
                 path="/movie/:id" 
-                // render={(props) => <SearchedContent {...props} match={props.match} />}
-                //  component={SearchedContent}
                 element={<SearchedContent />}
               />
               <Route 
                 path="/profile"
                 element={<Profile />} 
                />
-               <Route 
-                path="/user/:username"
-                element={<User />} 
-               />
-                   {/* {auth && auth.user ? (
-      <>
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </>
-    ) : (
-      
-      <Route path="/" element={<Login />} />
-    )} */}
-                  {/* <Route
-          path="/profile"
-          render={() => (isLoggedIn ? <Profile /> : <Navigate to="/login" />)}
-        /> */}
             </Routes>
           </div>
         </div>
