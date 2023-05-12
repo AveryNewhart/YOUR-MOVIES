@@ -1,12 +1,13 @@
 const { model, Schema } = require("mongoose");
-const User = require("./User");
+const movieSchema = require('./Movie')
 
 const reviewSchema = new Schema({
-  movie: {
-    type: Schema.Types.ObjectId,
-    ref: "Movie",
-    required: true,
-  },
+  // movie: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Movie",
+  //   required: true,
+  // },
+  movie: [movieSchema],
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",

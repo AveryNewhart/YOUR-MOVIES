@@ -2,8 +2,8 @@
 
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
-const { User, Review, Movie, Comment, Reply, Reaction } = require("../models"); //we don't need to do the dataSource at all if we import all the models
-const { ObjectId } = require("mongodb"); //! for review as of now
+const { User, Review, Movie } = require("../models"); //we don't need to do the dataSource at all if we import all the models
+// const { ObjectId } = require("mongodb"); //! for review as of now
 
 const resolvers = {
   Query: {
@@ -13,30 +13,13 @@ const resolvers = {
     users: async (_, __, context) => {
       return await User.find();
     },
-    review: async (parent, { id }, context) => {
-      return await Review.create(id).populate("reviewPost");
+    review: async (parent, { reviewId }) => {
+      return Review.findOne({ _id: reviewId });
     },
-    //   reviews: (parent, args, context) => {
-    //     return reviewAPI.getReviews();
-    //   },
-    //   comment: (parent, { id }, context) => {
-    //     return commentAPI.getCommentById(id);
-    //   },
-    //   comments: (parent, args, context) => {
-    //     return commentAPI.getComments();
-    //   },
-    //   reaction: (parent, { id }, context) => {
-    //     return reactionAPI.getReactionById(id);
-    //   },
-    //   reactions: (parent, args, context) => {
-    //     return reactionAPI.getReactions();
-    //   },
-    //   reply: (parent, { id }, context) => {
-    //     return replyAPI.getReplyById(id);
-    //   },
-    //   replies: (parent, args, context) => {
-    //     return replyAPI.getReplies();
-    //   },
+    reviews: async (parent, { username }) => {
+      const params = username ? { username } : {};
+      return Review.find(params).sort({ createdAt: -1 });
+    },
     movie: async (_, { id }, context) => {
       return await Movie.getMovieById(id);
     },
@@ -78,10 +61,6 @@ const resolvers = {
       }
     },
 
-    // // updateUser: (parent, args, context) => {
-    // //   // Update the User object with the provided ID with the provided input
-    // //   // Return the updated User object
-    // // },
     deleteUser: async (parent, { password }, { user }) => {
       // Check if user is logged in
       if (!user) {
@@ -168,15 +147,15 @@ const resolvers = {
     },
     removeWatchedMovie: async (parent, { movie, input }, context) => {
       if (context.user) {
-        console.log(input)
+        console.log(input);
 
         const dataMovie = await User.findOneAndUpdate(
           { movie },
           { $pull: { watchedMovies: { _id: context.user._id, input } } },
           { new: true, runValidators: true }
-        ).populate(watchedMovies)
+        ).populate(watchedMovies);
 
-        return dataMovie
+        return dataMovie;
       }
       throw new AuthenticationError("must be logged in to perform this action");
     },
@@ -185,9 +164,8 @@ const resolvers = {
         return (updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $addToSet: { watchedMovies: movie } },
-          { new: true, runValidators: true },
-        ).populate("watchedMovies")
-        );
+          { new: true, runValidators: true }
+        ).populate("watchedMovies"));
       }
       throw new AuthenticationError("You need to be logged in!");
     },
@@ -226,7 +204,7 @@ const resolvers = {
       }
       throw new AuthenticationError("must be logged in to perform this action");
     },
-             
+
     // addReview: async (_, { movieId, text, rating }, { dataSources, auth }) => {
     //   console.log(auth);
     //   const input = {
@@ -238,25 +216,20 @@ const resolvers = {
     //   const newReview = await Review.create(input);
     //   return newReview;
 
-
     // addReview: async (_, { movieId, reviewText, reviewAuthor }, context) => {
     //   if (context.user) {
     //   const newReview = await Review.create({
     //     reviewText,
     //     reviewAuthor: context.user.username
     //   })
-      
-
 
     //   throw new AuthenticationError("You need to be logged in!");
     // }
-      
-      
+
     //   // await User.findOneAndUpdate(
     //   //   { _id: context.user._id },
     //   //   { $addToSet: { reviews } }
     //   // )
-
 
     //   // Add the review to the movie's reviews array
     //   // const updatedMovie = await Movie.findByIdAndUpdate(
@@ -271,111 +244,69 @@ const resolvers = {
     //   if (!context.user) {
     //     throw new AuthenticationError("You need to be logged in!");
     //   }
-    
+
     //   const newReview = await Review.create({
     //     reviewText,
     //     reviewAuthor: context.user.username
     //   });
-    
+
     //   const updatedMovie = await Movie.findOneAndUpdate(
     //     { movieId },
     //     { $push: { reviews: newReview } },
     //     { new: true }
     //   );
-    
+
     //   return updatedMovie;
     // },
 
-    addReview: async (_, { movieId, reviewText, reviewAuthor }, context) => {
+    createReview: async (parent, { reviewText }, context) => {
+      if (context.user) {
+        const review = await Review.create({
+          reviewText,
+          reviewAuthor: context.user.username,
+        })
+
+        await User.findByIdAndUpdate(
+          { _id: context.user_id },
+          { $addToSet: { reviews: review._id } }
+        )
+        return review
+      }
+      throw new AuthenticationError('You need to be logged in!')
+    },
+
+    addReview: async (parent, { reviewId, reviewText }, context) => {
+      if (context.user) {
+        // await Review.create({ reviewId })
+        const reviewUser = await User.findOneAndUpdate(
+          reviewId,
+          { _id: context.user },
+          {
+            $addToSet: { reviews: { reviewText, reviewAuthor: context.user } },
+          },
+          { new: true, runValidators: true }
+        );
+        console.log(reviewId);
+        return reviewUser;
+      }
       if (!context.user) {
         throw new AuthenticationError("You need to be logged in!");
       }
-    
-      const newReview = {
-        reviewText,
-        reviewAuthor: context.user.username
-      };
-    
-      // Find the movie by its movieId and push the new review into the reviews array
-      const updatedMovie = await Movie.findOneAndUpdate(
-        { movieId: movieId },
-        { $push: { reviews: newReview } },
-        { new: true }
-      );
-    
-      return updatedMovie;
     },
-    
-    //   // Create a new Review object for the provided User and Movie objects with the provided input
-    //   // Return the new Review object
-    // },
-    //   updateReview: (parent, args, context) => {
-    //     // Update the Review object with the provided ID with the provided input
-    //     // Return the updated Review object
-    //   },
-    //   deleteReview: (parent, args, context) => {
-    //     // Delete the Review object with the provided ID
-    //     // Return the deleted Review object
-    //   },
-    //   addReaction: (parent, args, context) => {
-    //     // Create a new Reaction object for the provided Review object with the provided input
-    //     // Return the new Reaction object
-    //   },
-    //   deleteReaction: (parent, args, context) => {
-    //     // Delete the Reaction object with the provided ID
-    //     // Return the deleted Reaction object
-    //   },
-    //   addComment: (parent, args, context) => {
-    //     // Create a new Comment object for the provided Review object with the provided input
-    //     // Return the new Comment object
-    //   },
-    //   updateComment: (parent, args, context) => {
-    //     // Update the Comment object with the provided ID with the provided input
-    //     // Return the updated Comment object
-    //   },
-    //   deleteComment: (parent, args, context) => {
-    //     // Delete the Comment object with the provided ID
-    //     // Return the deleted Comment object
-    //   },
-    //   addReply: (parent, args, context) => {
-    //     // Create a new Reply object for the provided Comment object with the provided input
-    //     // Return the new Reply object
-    //   },
-    //   updateReply: async (parent, { replyId, text }, context) => {
-    //     // Check if reply exists
-    //     const existingReply = await db.reply.findOne({
-    //       where: { id: replyId }
-    //     })
-    //     if (!existingReply) {
-    //       throw new Error("Reply not found")
-    //     }
-
-    //     // Update reply
-    //     const updatedReply = await db.reply.update(
-    //       {
-    //         text
-    //       },
-    //       { where: { id: replyId } }
-    //     )
-
-    //     return updatedReply
-    //   },
-
-    //   deleteReply: async (parent, { replyId }, context) => {
-    //     // Check if reply exists
-    //     const existingReply = await db.reply.findOne({
-    //       where: { id: replyId }
-    //     })
-    //     if (!existingReply) {
-    //       throw new Error("Reply not found")
-    //     }
-
-    //     // Delete reply
-    //     await db.reply.destroy({ where: { id: replyId } })
-
-    //     return existingReply
-    //   },
-    // }
   },
-}
+};
 module.exports = resolvers;
+
+// const newReview = {
+//   reviewText,
+//   reviewAuthor: context.user.username
+// };
+
+//   // Find the movie by its movieId and push the new review into the reviews array
+//   const updatedMovie = await Movie.findOneAndUpdate(
+//     { movieId: movieId },
+//     { $push: { reviews: newReview } },
+//     { new: true }
+//   );
+
+//   return updatedMovie;
