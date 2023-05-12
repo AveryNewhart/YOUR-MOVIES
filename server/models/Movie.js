@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose")
-const reviewSchema = require("./Review")
+// const reviewSchema = require("./Review")
 
 const movieSchema = new Schema({
     movieId: {
@@ -37,26 +37,26 @@ const movieSchema = new Schema({
     overview: {
         type: String,
     },
-    reviews: [
-        {
-          reviewText: {
-            type: String,
-            required: true,
-            minlength: 1,
-            maxlength: 280,
-          },
-          reviewAuthor: {
-            type: String,
-            required: true,
-          },
-          createdAt: {
-            type: Date,
-            default: Date.now,
-            get: (timestamp) => dateFormat(timestamp),
-          },
-        },
-      ],
-    review: [reviewSchema],
+    // reviews: [
+    //     {
+    //       reviewText: {
+    //         type: String,
+    //         required: true,
+    //         minlength: 1,
+    //         maxlength: 280,
+    //       },
+    //       reviewAuthor: {
+    //         type: String,
+    //         required: true,
+    //       },
+    //       createdAt: {
+    //         type: Date,
+    //         default: Date.now,
+    //         get: (timestamp) => dateFormat(timestamp),
+    //       },
+    //     },
+    //   ],
+    // review: [reviewSchema],
       // review: [
     //     {
     //         type: Schema.Types.ObjectId,
