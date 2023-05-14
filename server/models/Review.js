@@ -13,13 +13,13 @@ const reviewSchema = new Schema({
     ref: "User",
     required: true,
   },
-  rating: {
-    type: Number,
-    required: true,
-    min: 1,
-    max: 5,
-  },
-  text: {
+  // rating: {
+  //   type: Number,
+  //   required: true,
+  //   min: 1,
+  //   max: 5,
+  // },
+  reviewText: {
     type: String,
     required: true,
   },
@@ -27,18 +27,18 @@ const reviewSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  reactions: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Reaction",
-    },
-  ],
-  comments: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Comment",
-    },
-  ],
+  // reactions: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "Reaction",
+  //   },
+  // ],
+  // comments: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "Comment",
+  //   },
+  // ],
 });
 
 // reviewSchema.pre("save", async function (next) {
@@ -51,6 +51,6 @@ const reviewSchema = new Schema({
 //   next();
 // });
 
-// const Review = model("Review", reviewSchema);
+const Review = model("Review", reviewSchema);
 
-module.exports = reviewSchema;
+module.exports = Review;

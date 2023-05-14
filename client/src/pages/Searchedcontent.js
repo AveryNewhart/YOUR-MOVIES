@@ -180,13 +180,18 @@ const SearchedContent = () => {
   // Save the review to the database
   // const savedReview = await reviewedMovie.save();
 
+  const { data } = await addReview({
+    variables: { reviewText: reviewText }, // Update this line
+  });
+
+
       // Save the review to the database
       const savedReview = await addReview({
         variables: { ...reviewedMovie },
       });
   
       // if the movie successfully saves to the user's account, save the movie id to state
-      setSavedReviewIds([...savedReviewIds, savedReview.data.addReview.reviewId]);
+      setSavedReviewIds([...savedReviewIds, savedReview.data.addReview]);
       // setWatchedMovies(user.watchedMovies);  // <-- set the watched movies data
   
       // Clear the review text after saving
@@ -252,9 +257,10 @@ const SearchedContent = () => {
                   <textarea
                   className='reviewInput'
                     type="text"
+                    value={reviewText}
                     placeholder="Add a review"
                     // value={movie.review.reviewText}
-                    // onChange={(e) => setReview(e.target.value)}
+                    onChange={(e) => setReviewText(e.target.value)}
                   />
                 </div>
                 <Button className="reviewBtns" onClick={() => handleSaveReview(movie.id, reviewText )}>Add Review</Button>

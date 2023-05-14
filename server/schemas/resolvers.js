@@ -260,16 +260,25 @@ const resolvers = {
     // },
 
     createReview: async (parent, { reviewText }, context) => {
+      // if (context.user) {
+      //   const review = await Review.create({
+      //     reviewText,
+      //     reviewAuthor: context.user.username,
+      //   })
       if (context.user) {
         const review = await Review.create({
           reviewText,
+          user: context.user._id, // Assign the user ID to the user field
           reviewAuthor: context.user.username,
-        })
+        });
 
         await User.findByIdAndUpdate(
-          { _id: context.user_id },
+          { _id: context.user._id },
           { $addToSet: { reviews: review._id } }
         )
+
+        review.reviewAuthor = context.user.username; // Set the reviewAuthor field
+
         return review
       }
       throw new AuthenticationError('You need to be logged in!')

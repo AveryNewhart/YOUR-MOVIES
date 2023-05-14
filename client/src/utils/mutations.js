@@ -38,37 +38,34 @@ export const CREATE_USER = gql`
   }
 `;
 
+export const ADD_REVIEW = gql`
+  mutation createReview($reviewText: String!) {
+  createReview(reviewText: $reviewText) {
+    id
+    createdAt
+    reviewAuthor
+    reviewText
+  }
+}
+`;
+
 // export const ADD_REVIEW = gql`
-//   mutation addReview($reviewText: String!) {
-//     addReview(reviewText: $reviewText) {
-//       _id
-//       user
-//       text
-//       movie
-//       rating
+//   mutation addReview($movieId: String!, $reviewText: String!, $reviewAuthor: String!) {
+//     addReview(movieId: $movieId, reviewText: $reviewText, reviewAuthor: $reviewAuthor) {
+//       id
+//       reviewText
 //       createdAt
+//       user {
+//         id
+//         username
+//       }
+//       # movie {
+//       #   id
+//       #   title
+//       # }
 //     }
 //   }
 // `;
-
-export const ADD_REVIEW = gql`
-  mutation addReview($movieId: String!, $reviewText: String!, $reviewAuthor: String!) {
-    addReview(movieId: $movieId, reviewText: $reviewText, reviewAuthor: $reviewAuthor) {
-      id
-      text
-      createdAt
-      rating
-      user {
-        id
-        username
-      }
-      movie {
-        id
-        title
-      }
-    }
-  }
-`;
 
  
 export const ADD_COMMENT = gql`
