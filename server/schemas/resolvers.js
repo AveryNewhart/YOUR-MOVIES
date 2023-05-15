@@ -13,12 +13,15 @@ const resolvers = {
     users: async (_, __, context) => {
       return await User.find();
     },
-    review: async (parent, { reviewId }) => {
-      return Review.findOne({ _id: reviewId });
-    },
-    reviews: async (parent, { username }) => {
-      const params = username ? { username } : {};
-      return Review.find(params).sort({ createdAt: -1 });
+    // review: async (parent, { reviewId }) => {
+    //   return Review.findOne({ _id: reviewId });
+    // },
+    // reviews: async (parent, { username }) => {
+    //   const params = username ? { username } : {};
+    //   return Review.find(params).sort({ createdAt: -1 });
+    // },
+    review: async (_, { id }, context) => {
+      return await Review.getReviewById(id);
     },
     movie: async (_, { id }, context) => {
       return await Movie.getMovieById(id);
@@ -76,74 +79,6 @@ const resolvers = {
       }
       console.log(deletedUser.username);
       return deletedUser;
-    },
-
-    addFollower: async (parent, { userId, followedUserId }, { user }) => {
-      // Authentication check to make sure we have a valid user.
-      if (!user) {
-        throw new AuthenticationError("You need to be logged in!");
-      }
-
-      console.log("Logged in User:", userId);
-      console.log("ID of the person being followed: ", followedUserId);
-
-      const followedUser = await User.findByIdAndUpdate(
-        { _id: followedUserId },
-        { $addToSet: { followers: user._id } },
-        { new: true }
-      );
-
-      // If no user is found in the query then we will return an error.
-      if (!followedUser) {
-        throw new UserInputError("User not found.");
-      }
-
-      const followingUser = await User.findByIdAndUpdate(
-        { _id: userId },
-        { $addToSet: { followings: followedUserId } },
-        { new: true }
-      );
-
-      console.log("Logged in User:", user.username, user);
-      console.log("Followed user:", followedUser);
-      console.log("Following user:", followingUser);
-
-      // Return the user with the updated followings and followers arrays.
-      return followingUser;
-    },
-
-    unfollow: async (parent, { userId, followedUserId }, { user }) => {
-      // Authentication check to make sure we have a valid user.
-      if (!user) {
-        throw new AuthenticationError("You need to be logged in!");
-      }
-
-      console.log("Logged in User:", userId);
-      console.log("ID of the person being unfollowed: ", followedUserId);
-
-      const unfollowedUser = await User.findByIdAndUpdate(
-        { _id: followedUserId },
-        { $pull: { followers: user._id } },
-        { new: true }
-      );
-
-      // If no user is found in the query then we will return an error.
-      if (!unfollowedUser) {
-        throw new UserInputError("User not found.");
-      }
-
-      const unfollowingUser = await User.findByIdAndUpdate(
-        { _id: userId },
-        { $pull: { followings: followedUserId } },
-        { new: true }
-      );
-
-      console.log("Logged in User:", user.username, user);
-      console.log("Unfollowed user:", unfollowedUser);
-      console.log("Unfollowing user:", unfollowingUser);
-
-      // Return the user with the updated followings and followers arrays.
-      return unfollowingUser;
     },
     removeWatchedMovie: async (parent, { movie, input }, context) => {
       if (context.user) {
@@ -205,103 +140,60 @@ const resolvers = {
       throw new AuthenticationError("must be logged in to perform this action");
     },
 
-    // addReview: async (_, { movieId, text, rating }, { dataSources, auth }) => {
-    //   console.log(auth);
-    //   const input = {
-    //     movie: movieId,
-    //     auth, //!Structuring data we're passing to Review.create
-    //     text,
-    //     rating,
-    //   };
-    //   const newReview = await Review.create(input);
-    //   return newReview;
+    createReview: async (parent, { review }, context) => {
+      if (context.user) {
+        return (updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { reviews: review } },
+          { new: true, runValidators: true }
+        ));
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
 
-    // addReview: async (_, { movieId, reviewText, reviewAuthor }, context) => {
+    // createReview: async (parent, { reviewText }, context) => {
+    //   // if (context.user) {
+    //   //   const review = await Review.create({
+    //   //     reviewText,
+    //   //     reviewAuthor: context.user.username,
+    //   //   })
     //   if (context.user) {
-    //   const newReview = await Review.create({
-    //     reviewText,
-    //     reviewAuthor: context.user.username
-    //   })
+    //     const review = await Review.create({
+    //       reviewText,
+    //       user: context.user._id, // Assign the user ID to the user field
+    //       reviewAuthor: context.user.username,
+    //     });
 
-    //   throw new AuthenticationError("You need to be logged in!");
-    // }
+    //     await User.findByIdAndUpdate(
+    //       { _id: context.user._id },
+    //       { $addToSet: { reviews: review._id } }
+    //     )
 
-    //   // await User.findOneAndUpdate(
-    //   //   { _id: context.user._id },
-    //   //   { $addToSet: { reviews } }
-    //   // )
+    //     review.reviewAuthor = context.user.username; // Set the reviewAuthor field
 
-    //   // Add the review to the movie's reviews array
-    //   // const updatedMovie = await Movie.findByIdAndUpdate(
-    //   //   { _id: movieId },
-    //   //   { $push: { reviews: newReview._id } },
-    //   //   { new: true }
-    //   // );
-
+    //     return review
+    //   }
+    //   throw new AuthenticationError('You need to be logged in!')
     // },
 
-    // addReview: async (_, { movieId, reviewText, reviewAuthor }, context) => {
+    // addReview: async (parent, { reviewId, reviewText }, context) => {
+    //   if (context.user) {
+    //     // await Review.create({ reviewId })
+    //     const reviewUser = await User.findOneAndUpdate(
+    //       reviewId,
+    //       { _id: context.user },
+    //       {
+    //         $addToSet: { reviews: { reviewText, reviewAuthor: context.user } },
+    //       },
+    //       { new: true, runValidators: true }
+    //     );
+    //     console.log(reviewId);
+    //     return reviewUser;
+    //   }
     //   if (!context.user) {
     //     throw new AuthenticationError("You need to be logged in!");
     //   }
-
-    //   const newReview = await Review.create({
-    //     reviewText,
-    //     reviewAuthor: context.user.username
-    //   });
-
-    //   const updatedMovie = await Movie.findOneAndUpdate(
-    //     { movieId },
-    //     { $push: { reviews: newReview } },
-    //     { new: true }
-    //   );
-
-    //   return updatedMovie;
     // },
-
-    createReview: async (parent, { reviewText }, context) => {
-      // if (context.user) {
-      //   const review = await Review.create({
-      //     reviewText,
-      //     reviewAuthor: context.user.username,
-      //   })
-      if (context.user) {
-        const review = await Review.create({
-          reviewText,
-          user: context.user._id, // Assign the user ID to the user field
-          reviewAuthor: context.user.username,
-        });
-
-        await User.findByIdAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { reviews: review._id } }
-        )
-
-        review.reviewAuthor = context.user.username; // Set the reviewAuthor field
-
-        return review
-      }
-      throw new AuthenticationError('You need to be logged in!')
-    },
-
-    addReview: async (parent, { reviewId, reviewText }, context) => {
-      if (context.user) {
-        // await Review.create({ reviewId })
-        const reviewUser = await User.findOneAndUpdate(
-          reviewId,
-          { _id: context.user },
-          {
-            $addToSet: { reviews: { reviewText, reviewAuthor: context.user } },
-          },
-          { new: true, runValidators: true }
-        );
-        console.log(reviewId);
-        return reviewUser;
-      }
-      if (!context.user) {
-        throw new AuthenticationError("You need to be logged in!");
-      }
-    },
   },
 };
 module.exports = resolvers;

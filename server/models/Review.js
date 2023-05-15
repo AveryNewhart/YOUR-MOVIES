@@ -1,56 +1,22 @@
 const { model, Schema } = require("mongoose");
-const movieSchema = require('./Movie')
+// const movieSchema = require('./Movie')
 
 const reviewSchema = new Schema({
-  // movie: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "Movie",
-  //   required: true,
-  // },
-  movie: [movieSchema],
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+  reviewId: {
+    type: String,
   },
-  // rating: {
-  //   type: Number,
-  //   required: true,
-  //   min: 1,
-  //   max: 5,
-  // },
+  reviewAuthor: {
+    type: String,
+  },
   reviewText: {
     type: String,
-    required: true,
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
-  // reactions: [
-  //   {
-  //     type: Schema.Types.ObjectId,
-  //     ref: "Reaction",
-  //   },
-  // ],
-  // comments: [
-  //   {
-  //     type: Schema.Types.ObjectId,
-  //     ref: "Comment",
-  //   },
-  // ],
 });
 
-// reviewSchema.pre("save", async function (next) {
-//   const user = await User.findById(this.user);
-//   if (!user.watched.includes(this.title)) {
-//     throw new Error(
-//       "You cannot review a movie that is not in your watched movies list."
-//     );
-//   }
-//   next();
-// });
+// const Review = model("Review", reviewSchema);
 
-const Review = model("Review", reviewSchema);
-
-module.exports = Review;
+module.exports = reviewSchema;
