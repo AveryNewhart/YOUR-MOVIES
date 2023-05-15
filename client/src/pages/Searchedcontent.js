@@ -14,22 +14,23 @@ import { SAVE_WATCHED_MOVIE, SAVE_WATCHLIST_MOVIE, ADD_REVIEW } from '../utils/m
 const SearchedContent = () => {
     const { id } = useParams(); // get the ID from the URL
     const [movie, setMovie] = useState(null); // set initial state to null
-    // const [review, setReview] = useState("");
     // const movieId = req.body.movieId;
-    const [reviewText, setReviewText] = useState('');
+    const [review, setReview] = useState('');
 
-
-    const [addReview, { error: addReviewError }] = useMutation(ADD_REVIEW);
+    // eslint-disable-next-line
+    const [createReview, { error: addReviewError }] = useMutation(ADD_REVIEW);
 
     const [savedReviewIds, setSavedReviewIds] = useState(getSavedReviewIds());
 
       // saveWatchedMovie mutation hook
+      // eslint-disable-next-line
     const [addWatchedMovie, { error: errorWatched }] = useMutation(SAVE_WATCHED_MOVIE);
 
      // create state to hold saved wacthedMovieId values
     const [savedWatchedMovieIds, setSavedWatchedMovieIds] = useState(getSavedWatchedMovieIds());
 
     // saveWatchLaterMovie mutation hook
+    // eslint-disable-next-line
     const [addMovieToWatchlist, { error: errorWatchLater }] = useMutation(SAVE_WATCHLIST_MOVIE);
 
      // create state to hold saved wacthLaterMovieId values
@@ -91,6 +92,7 @@ const SearchedContent = () => {
         // vote_count: movie.vote_count
       };
 
+      // eslint-disable-next-line
       const { data } = await addWatchedMovie({
         variables: { movie: watchedMovieToSave  },
       });
@@ -132,6 +134,7 @@ const SearchedContent = () => {
           // vote_count: movie.vote_count
         };
   
+        // eslint-disable-next-line
         const { data } = await addMovieToWatchlist({
           variables: { movie: watchlistMovieToSave  },
         });
@@ -145,13 +148,9 @@ const SearchedContent = () => {
     };
 
      // create function to handle saving a movie that you've watched to our database
-     const handleSaveReview = async (movieId, reviewText) => {
-      // const { movieId, reviewText, reviewAuthor } = args;
-      // find the movie in `searchedMovies` state by the matching id
-      // const watchedMovieToSave = movie.find((movie) => movie.movieId === movieId);
-  
+     const handleSaveReview = async (reviewId) => {
         // check if the movie is already in the saved watched movies
-        if (savedReviewIds.includes(movieId, reviewText)) {
+        if (savedReviewIds.includes(reviewId)) {
           console.log("Movie already saved as watched!");
             return;
         }
@@ -165,47 +164,26 @@ const SearchedContent = () => {
   
       try {
         const reviewedMovie = {
-          movieId: movie.id,
-          title: movie.title,
+          // reviewId: review.reviewId,
+          createdAt: review.createdAt,
           reviewAuthor: Auth.getProfile().data.username,
-          reviewText: reviewText
-          // vote_average: movie.vote_average,
-          // vote_count: movie.vote_count
+          reviewText: review.reviewText
         };
-  
-        // const { data } = await addReview({
-        //   variables: {  ...reviewedMovie  },
-        // });
-   
-  // Save the review to the database
-  // const savedReview = await reviewedMovie.save();
 
-  const { data } = await addReview({
-    variables: { reviewText: reviewText }, // Update this line
+  // eslint-disable-next-line
+  const { data } = await createReview({
+    variables: { review: reviewedMovie }, // Update this line
   });
 
-
-      // Save the review to the database
-      const savedReview = await addReview({
-        variables: { ...reviewedMovie },
-      });
-  
       // if the movie successfully saves to the user's account, save the movie id to state
-      setSavedReviewIds([...savedReviewIds, savedReview.data.addReview]);
-      // setWatchedMovies(user.watchedMovies);  // <-- set the watched movies data
+      setSavedReviewIds([...savedReviewIds, reviewedMovie.reviewId]);
   
       // Clear the review text after saving
-      setReviewText('');
+      setReview('');
 
-        // if movie successfully saves to user's account, save movie id to state
-        // setSavedReviewIds([...savedReviewIds, reviewedMovie.movieId.reviewId]);
-        // setWatchedMovies(user.watchedMovies);  // <-- set the watched movies data
       } catch (err) {
         console.error(err);
       }
-
-  //       // Return the saved review object
-  // return savedReview;
     };
 
   
@@ -257,13 +235,13 @@ const SearchedContent = () => {
                   <textarea
                   className='reviewInput'
                     type="text"
-                    value={reviewText}
+                    value={review.reviewText}
                     placeholder="Add a review"
                     // value={movie.review.reviewText}
-                    onChange={(e) => setReviewText(e.target.value)}
+                    onChange={(e) => setReview(e.target.value)}
                   />
                 </div>
-                <Button className="reviewBtns" onClick={() => handleSaveReview(movie.id, reviewText )}>Add Review</Button>
+                <Button className="reviewBtns" onClick={() => handleSaveReview(review.reviewId)}>Add Review</Button>
             </div>
 
           </section>

@@ -37,38 +37,12 @@ const movieSchema = new Schema({
     overview: {
         type: String,
     },
-    // reviews: [
-    //     {
-    //       reviewText: {
-    //         type: String,
-    //         required: true,
-    //         minlength: 1,
-    //         maxlength: 280,
-    //       },
-    //       reviewAuthor: {
-    //         type: String,
-    //         required: true,
-    //       },
-    //       createdAt: {
-    //         type: Date,
-    //         default: Date.now,
-    //         get: (timestamp) => dateFormat(timestamp),
-    //       },
-    //     },
-    //   ],
-    // review: [reviewSchema],
-      // review: [
-    //     {
-    //         type: Schema.Types.ObjectId,
-    //         ref: "Review"
-    //     }
-    // ]
 })
 
-movieSchema.virtual('posts', { //! Referencing review in Query in resolvers
-    ref: 'reviewPost',
-    localField: '_id',
-    foreignField: 'movie'
-  });
+// movieSchema.virtual('posts', { //! Referencing review in Query in resolvers
+//     ref: 'reviewPost',
+//     localField: '_id',
+//     foreignField: 'movie'
+//   });
 
 module.exports = movieSchema

@@ -20,78 +20,43 @@ query user($username: String!) {
       imageURL
       overview
     }
-    reviews {
-      id
-      text
-      rating
-      user {
-        id
-        username
-      }
-      reactions {
-        id
-        type
-        user {
-          id
-          username
-        }
-      }
-      comments {
-        id
-        text
-        user {
-          id
-          username
-        }
-        reactions {
-          id
-          type
-          user {
-            id
-            username
-          }
-        }
-        replies {
-          id
-          text
-          user {
-            id
-            username
-          }
-        }
-      }
-    }
+    # reviews {
+    #   reviewId
+    #   reviewText
+    #   reviewAuthor
+    #   createdAt
+    # }
   }
 }
 `;
 
-export const QUERY_REVIEWS = gql`
-  query getReviews {
-    reviews {
-      _id
-      reviewText
-      reviewAuthor
-      createdAt
-    }
-  }
-`;
+// export const QUERY_REVIEWS = gql`
+//   query getReviews {
+//     reviews {
+//       _id
+//       reviewText
+//       reviewAuthor
+//       createdAt
+//     }
+//   }
+// `;
 
-export const QUERY_SINGLE_REVIEW = gql`
-  query getSingleReview($reviewId: ID!) {
-    review(reviewId: $reviewId) {
-      _id
-      reviewText
-      reviewAuthor
-      createdAt
-      comments {
-        _id
-        commentText
-        commentAuthor
-        createdAt
-      }
-    }
-  }
-`;
+// export const QUERY_SINGLE_REVIEW = gql`
+//   query getSingleReview($reviewId: ID!) {
+//     review(reviewId: $reviewId) {
+//       _id
+//       reviewText
+//       reviewAuthor
+//       createdAt
+//       comments {
+//         _id
+//         commentText
+//         commentAuthor
+//         createdAt
+//       }
+//     }
+//   }
+// `;
 
 export const QUERY_PROTECTED = gql`
 query protected {
@@ -99,21 +64,12 @@ query protected {
     id
     username
     email
-    followers {
-      id
-      username
-    }
-    followings {
-      id
-      username
-    }
-    reviews {
-      id
-      user {
-        id
-        username
-      }
-    }
+    # reviews {
+    #   reviewId
+    #   reviewText
+    #   reviewAuthor
+    #   createdAt
+    # }
     watchedMovies {
       movieId
       title

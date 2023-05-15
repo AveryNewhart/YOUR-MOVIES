@@ -1,7 +1,7 @@
 const { model, Schema } = require("mongoose");
 const bcrypt = require("bcrypt");
 const movieSchema = require('./Movie')
-const Review = require("./Review")
+const reviewSchema = require("./Review")
 
 const UserSchema = new Schema({
   username: {
@@ -24,43 +24,9 @@ const UserSchema = new Schema({
     required: true,
     minlength: 6,
   },
-  // watchedMovies: [
-  //   {
-  //     type: Schema.Types.ObjectId,
-  //     // unique: true,
-  //     ref: "Movie",
-  //   },
-  // ]
   watchedMovies: [movieSchema],
   watchlist: [movieSchema],
-  // watchlist: [
-  //   {
-  //     type: Schema.Types.ObjectId,
-  //     // unique: true,
-  //     ref: "Movie",
-  //   },
-  // ],
-  // followers: [
-  //   {
-  //     type: Schema.Types.String,
-  //     // unique: true,
-  //     ref: "User",
-  //   },
-  // ],
-  // followings: [
-  //   {
-  //     type: Schema.Types.String,
-  //    //  unique: true,
-  //     ref: "User",
-  //   },
-  // ],
-  reviews: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Review",
-    },
-  ],
-  // reviews: [Review],
+  reviews: [reviewSchema],
 });
 
 UserSchema.pre("save", async function (next) {

@@ -39,50 +39,19 @@ export const CREATE_USER = gql`
 `;
 
 export const ADD_REVIEW = gql`
-  mutation createReview($reviewText: String!) {
-  createReview(reviewText: $reviewText) {
+  mutation createReview($review: ReviewInput!) {
+  createReview(review: $review) {
     id
-    createdAt
-    reviewAuthor
-    reviewText
+    reviews {
+      reviewId
+      reviewText
+      reviewAuthor
+      createdAt
+    }
   }
 }
 `;
 
-// export const ADD_REVIEW = gql`
-//   mutation addReview($movieId: String!, $reviewText: String!, $reviewAuthor: String!) {
-//     addReview(movieId: $movieId, reviewText: $reviewText, reviewAuthor: $reviewAuthor) {
-//       id
-//       reviewText
-//       createdAt
-//       user {
-//         id
-//         username
-//       }
-//       # movie {
-//       #   id
-//       #   title
-//       # }
-//     }
-//   }
-// `;
-
- 
-export const ADD_COMMENT = gql`
-  mutation addComment($reviewId: ID!, $commentText: String!) {
-    addComment(reviewId: $thoughtId, commentText: $commentText) {
-      _id
-      reviewText
-      reviewAuthor
-      createdAt
-      comments {
-        _id
-        commentText
-        createdAt
-      }
-    }
-  }
-`;
 
 export const SAVE_WATCHED_MOVIE = gql`
   mutation addWatchedMovie($movie: MovieInput!) {
@@ -123,22 +92,6 @@ mutation addMovieToWatchlist($movie: MovieInput!) {
 export const REMOVE_WATCHLIST_MOVIE = gql`
 mutation removeMovieFromWatchlist($input: MovieInput) {
   removeMovieFromWatchlist(input: $input) {
-    id
-  }
-}
-`;
-
-export const ADD_FOLLOWER = gql`
-mutation addFollower($userId: String!, $followedUserId: String) {
-  addFollower(userId: $userId, followedUserId: $followedUserId) {
-    id
-  }
-}
-`;
-
-export const REMOVE_FOLLOWER = gql`
-mutation unfollow($userId: String!, $followedUserId: String) {
-  unfollow(userId: $userId, followedUserId: $followedUserId) {
     id
   }
 }
