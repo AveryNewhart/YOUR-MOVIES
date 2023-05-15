@@ -40,7 +40,7 @@ const typeDefs = gql`
     id: ID!
     movieId: String!
     createdAt: String
-    user: User!
+    user: User
     movie: Movie
     reviewText: String!
     reviewAuthor: String!
