@@ -21,7 +21,7 @@ const resolvers = {
     //   return Review.find(params).sort({ createdAt: -1 });
     // },
     review: async (_, { id }, context) => {
-      return await Review.getReviewById(id);
+      return await Review.add(id);
     },
     movie: async (_, { id }, context) => {
       return await Movie.getMovieById(id);

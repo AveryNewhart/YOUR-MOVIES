@@ -15,7 +15,10 @@ const SearchedContent = () => {
     const { id } = useParams(); // get the ID from the URL
     const [movie, setMovie] = useState(null); // set initial state to null
     // const movieId = req.body.movieId;
-    const [review, setReview] = useState('');
+    // const [review, setReview] = useState('');
+    const [review, setReview] = useState({
+      reviewText: '',
+    });
 
     // eslint-disable-next-line
     const [createReview, { error: addReviewError }] = useMutation(ADD_REVIEW);
@@ -148,9 +151,14 @@ const SearchedContent = () => {
     };
 
      // create function to handle saving a movie that you've watched to our database
-     const handleSaveReview = async (reviewId) => {
+     const handleSaveReview = async () => {
         // check if the movie is already in the saved watched movies
-        if (savedReviewIds.includes(reviewId)) {
+        if (!review.reviewText) {
+          console.log('Please enter review text and createdAt value.');
+          return;
+        }
+
+        if (savedReviewIds.includes(review.reviewId)) {
           console.log("Movie already saved as watched!");
             return;
         }
@@ -165,7 +173,7 @@ const SearchedContent = () => {
       try {
         const reviewedMovie = {
           // reviewId: review.reviewId,
-          createdAt: review.createdAt,
+          // createdAt: review.createdAt,
           reviewAuthor: Auth.getProfile().data.username,
           reviewText: review.reviewText
         };
@@ -176,15 +184,19 @@ const SearchedContent = () => {
   });
 
       // if the movie successfully saves to the user's account, save the movie id to state
-      setSavedReviewIds([...savedReviewIds, reviewedMovie.reviewId]);
+      // setSavedReviewIds([...savedReviewIds, reviewedMovie.reviewId]);
+      setSavedReviewIds([...savedReviewIds, data.createReview.id]);
+      setReview({ reviewText: '', createdAt: '' });
   
       // Clear the review text after saving
       setReview('');
+
 
       } catch (err) {
         console.error(err);
       }
     };
+
 
   
 //   const ratingColor = getRatingColor(movie.vote_average);
@@ -238,10 +250,17 @@ const SearchedContent = () => {
                     value={review.reviewText}
                     placeholder="Add a review"
                     // value={movie.review.reviewText}
-                    onChange={(e) => setReview(e.target.value)}
+                    onChange={(e) => 
+                    // setReview(e.target.value)}
+                    setReview({ ...review, reviewText: e.target.value })
+                  }
                   />
                 </div>
-                <Button className="reviewBtns" onClick={() => handleSaveReview(review.reviewId)}>Add Review</Button>
+                <Button
+    className='reviewBtns'
+    onClick={handleSaveReview}>Add Review
+  </Button>
+                {/* <Button className="reviewBtns" onClick={() => handleSaveReview(review.id, review.reviewText )}>Add Review</Button> */}
             </div>
 
           </section>
