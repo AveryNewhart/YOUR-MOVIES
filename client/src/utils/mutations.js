@@ -41,7 +41,6 @@ export const CREATE_USER = gql`
 export const ADD_REVIEW = gql`
   mutation createReview($review: ReviewInput!) {
   createReview(review: $review) {
-    id
     username
     reviews {
       reviewId

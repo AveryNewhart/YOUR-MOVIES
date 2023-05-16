@@ -141,25 +141,37 @@ const resolvers = {
     },
 
     createReview: async (parent, { review }, context) => {
-      // if (context.user) {
-      //   return (updatedUser = await User.findOneAndUpdate(
-      //     { _id: context.user._id },
-      //     { $addToSet: { reviews: review } },
-      //     { new: true, runValidators: true }
-      //   ));
-      // }
     if (context.user) {
       const reviewWithId = {
         reviewId: `${Date.now()}-${Math.floor(Math.random() * 1000)}`,
         ...review,
       };
 
-    return (updatedUser = await User.findOneAndUpdate(
-      { _id: context.user._id },
-      { $addToSet: { reviews: reviewWithId } },
-      { new: true, runValidators: true }
-    ));
-  }
+  //   return (updatedUser = await User.findOneAndUpdate(
+  //     { _id: context.user._id },
+  //     { $addToSet: { reviews: reviewWithId } },
+  //     { new: true, runValidators: true }
+  //   ));
+  // }
+
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: context.user._id },
+    { $addToSet: { reviews: reviewWithId } },
+    { new: true, runValidators: true }
+  );
+
+  return { ...updatedUser._doc, reviews: [reviewWithId] };
+}
+
+// const updatedUser = await User.findOneAndUpdate(
+//   { _id: context.user._id },
+//   { $addToSet: { reviews: reviewWithId } },
+//   { new: true, runValidators: true }
+// ).select('_id'); // Add '.select("_id")' to include the 'id' field in the returned user object
+
+// return updatedUser;
+// }
+
       throw new AuthenticationError("You need to be logged in!");
     },
 
