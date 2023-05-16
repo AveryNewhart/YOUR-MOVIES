@@ -162,6 +162,9 @@ const SearchedContent = () => {
           console.log("Movie already saved as watched!");
             return;
         }
+
+         // Generate a unique review ID
+    const reviewId = `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   
       // get token
       const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -172,7 +175,7 @@ const SearchedContent = () => {
   
       try {
         const reviewedMovie = {
-          // reviewId: review.reviewId,
+          reviewId: reviewId,
           // createdAt: review.createdAt,
           reviewAuthor: Auth.getProfile().data.username,
           reviewText: review.reviewText
@@ -184,8 +187,8 @@ const SearchedContent = () => {
   });
 
       // if the movie successfully saves to the user's account, save the movie id to state
-      // setSavedReviewIds([...savedReviewIds, reviewedMovie.reviewId]);
-      setSavedReviewIds([...savedReviewIds, data.createReview.id]);
+      // setSavedReviewIds([...savedReviewIds, data.createReview.id]);
+      setSavedReviewIds([...savedReviewIds, reviewId]);
       setReview({ reviewText: '', createdAt: '' });
   
       // Clear the review text after saving
@@ -256,11 +259,11 @@ const SearchedContent = () => {
                   }
                   />
                 </div>
-                <Button
+                {/* <Button
     className='reviewBtns'
     onClick={handleSaveReview}>Add Review
-  </Button>
-                {/* <Button className="reviewBtns" onClick={() => handleSaveReview(review.id, review.reviewText )}>Add Review</Button> */}
+  </Button> */}
+                <Button className="reviewBtns" onClick={() => handleSaveReview(review.reviewId)}>Add Review</Button>
             </div>
 
           </section>
