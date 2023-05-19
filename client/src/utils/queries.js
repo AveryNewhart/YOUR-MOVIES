@@ -20,12 +20,12 @@ query user($username: String!) {
       imageURL
       overview
     }
-    # reviews {
-    #   reviewId
-    #   reviewText
-    #   reviewAuthor
-    #   createdAt
-    # }
+    reviews {
+      reviewId
+      reviewText
+      reviewAuthor
+      createdAt
+    }
   }
 }
 `;
@@ -64,12 +64,12 @@ query protected {
     id
     username
     email
-    # reviews {
-    #   reviewId
-    #   reviewText
-    #   reviewAuthor
-    #   createdAt
-    # }
+    reviews {
+      reviewId
+      reviewText
+      reviewAuthor
+      createdAt
+    }
     watchedMovies {
       movieId
       title

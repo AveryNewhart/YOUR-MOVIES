@@ -4,7 +4,7 @@ import UserCard from '../components/UserCard';
 // import FavList from '../components/Favourites';
 import UserWatched from '../components/UserWatched';
 import UserWatchList from '../components/UserWatchList';
-import MyReviews from '../components/MyReviews';
+import UserReviews from '../components/UserReviews';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Navigation from "../components/Nav.js";
@@ -65,12 +65,31 @@ const styles = {
 };
 
 const User = () => {
-  const [displayWatchList, setDisplayWatchList] = useState(true);
-  const [displayMyReviews, setDisplayMyReviews] = useState(true);
+  // const [displayWatchList, setDisplayWatchList] = useState(true);
+  // // const [displayMyReviews, setDisplayMyReviews] = useState(true);
+  // const [displayMyReviews, setDisplayMyReviews] = useState(false); // Set initial value to false for reviews
 
-  const handleButtonClick = (display) => {
-    setDisplayWatchList(display);
-    setDisplayMyReviews(display);
+  // const handleButtonClick = (watchlistDisplay, reviewsDisplay) => {
+  //   setDisplayWatchList(watchlistDisplay);
+  //   setDisplayMyReviews(reviewsDisplay);
+  // };
+  const [activeComponent, setActiveComponent] = useState('watchList');
+
+  const handleButtonClick = (component) => {
+    setActiveComponent(component);
+  };
+
+  const renderComponent = () => {
+    switch (activeComponent) {
+      case 'watchList':
+        return <UserWatchList />;
+      case 'reviews':
+        return <UserReviews />;
+      case 'watchedMovies':
+        return <UserWatched />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -87,30 +106,40 @@ const User = () => {
             <Col>
               <Button
                 style={styles.ButtonStyles}
-                onClick={() => handleButtonClick(true)}
-                active={displayWatchList}>
+                // onClick={() => handleButtonClick(true, false)}
+                // active={displayWatchList}>
+                onClick={() => handleButtonClick('watchList')}
+                active={activeComponent === 'watchList'}
+              >
                 Watch List
               </Button>
             </Col>
             <Col>
               <Button
                 style={styles.ButtonStyles}
-                onClick={() => handleButtonClick(true)}
-                active={displayMyReviews}>
+                // onClick={() => handleButtonClick(false, true)}
+                // active={displayMyReviews}>
+                onClick={() => handleButtonClick('reviews')}
+                active={activeComponent === 'reviews'}
+              >
                 Reviews
               </Button>
             </Col>
             <Col>
               <Button
                 style={styles.ButtonStyles}
-                onClick={() => handleButtonClick(false)}
-                active={!displayWatchList}>
+                // onClick={() => handleButtonClick(false, false)}
+                // active={!displayWatchList}>
+                onClick={() => handleButtonClick('watchedMovies')}
+                active={activeComponent === 'watchedMovies'}
+              >
                 Watched Movies
               </Button>
             </Col>
           </Row>
           {/* {displayWatchList ? <WatchList /> : <MyReviews /> : <WatchedMovies /> } */}
-          {displayWatchList ? <UserWatchList /> : (displayMyReviews ? <MyReviews /> : <UserWatched />)}
+          {/* {displayWatchList ? <UserWatchList /> : (displayMyReviews ? <UserReviews /> : <UserWatched />)} */}
+          {renderComponent()}
           {/* Render WatchList or MyReviews component based on displayWatchList state */}
         </Container>
       </div>
