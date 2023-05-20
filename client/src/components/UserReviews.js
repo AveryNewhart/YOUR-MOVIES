@@ -45,7 +45,6 @@ const UserReviews = () => {
 
   return (
     <Container fluid>
-        <h1>MY REVIEWS</h1>
       <Row xs={2} md={5} className="g-4">
         {userData.reviews?.map((review) => (
           <Col key={review.reviewId} style={{ justifyContent: 'center', display: 'flex', marginBottom: '7rem' }}>
@@ -60,8 +59,9 @@ const UserReviews = () => {
 
                 <Card.Body className='reviewDiv'>
                   <Card.Title style={{textAlign: 'center', fontSize: '1rem'}}>{review.reviewAuthor}</Card.Title>
+                  <p></p>
                   <p>{review.reviewText}</p>
-                  <p>{review.createdAt}</p>
+                  {/* <p>{review.createdAt}</p> */}
                 </Card.Body>
                   {/* <Button
                   className="btn-block btn-danger"
