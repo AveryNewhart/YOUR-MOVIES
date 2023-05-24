@@ -4,7 +4,6 @@ const { Schema, model } = require("mongoose")
 const movieSchema = new Schema({
     movieId: {
         type: String,
-        required: true
     },
     title: {
         type: String,

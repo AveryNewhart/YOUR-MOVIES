@@ -1,3 +1,8 @@
-.reviewDiv {
-    border: 2px solid green;
+.reviewDivPage {
+    border: 2px solid #c10206;
+    text-align: center;
+}
+
+.authorText {
+    color: black;
 }

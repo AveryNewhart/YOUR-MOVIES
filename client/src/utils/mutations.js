@@ -39,16 +39,33 @@ export const CREATE_USER = gql`
 `;
 
 export const ADD_REVIEW = gql`
-  mutation createReview($review: ReviewInput!) {
-  createReview(review: $review) {
+#   mutation createReview($review: ReviewInput!, $movieTitle: MovieInput) {
+#   createReview(review: $review, movieTitle: $movieTitle) {
+#     username
+#     reviews {
+#       reviewId
+#       reviewText
+#       reviewAuthor
+#       movieTitle {
+#         title
+#       }
+#     }
+#   }
+# }
+mutation createReview($review: ReviewInput!, $movieTitle: MovieInput!) {
+  createReview(review: $review, movieTitle: $movieTitle) {
     username
     reviews {
       reviewId
       reviewText
       reviewAuthor
+      movieTitle {
+        title
+      }
     }
   }
 }
+
 `;
 
 

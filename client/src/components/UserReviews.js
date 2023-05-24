@@ -1,4 +1,6 @@
-import React from 'react';
+import React
+// , {useState} 
+from 'react';
 import { useQuery, 
     // useMutation
  } from '@apollo/client';
@@ -14,12 +16,14 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
+// import { Movie } from '../../../server/models';
 
 
 const UserReviews = () => {
 //   const [removeReview, { error }] = useMutation(REMOVE_REVIEW);
     const { loading, data } = useQuery(QUERY_PROTECTED);
     const userData = data?.protected || {};
+    // const [movie, setMovie] = useState(null); // set initial state to null
 
   
 //   const handleDeleteREVIEW = async (reviewId) => {
@@ -57,9 +61,9 @@ const UserReviews = () => {
                 style={{ cursor: 'pointer', borderRadius: '5px' }}
               /> */}
 
-                <Card.Body className='reviewDiv'>
-                  <Card.Title style={{textAlign: 'center', fontSize: '1rem'}}>{review.reviewAuthor}</Card.Title>
-                  <p></p>
+                <Card.Body className='reviewDivPage'>
+                  <Card.Title style={{textAlign: 'center', fontSize: '1rem'}} className="authorText">{review.reviewAuthor}</Card.Title>
+                  {review.movieTitle && <p className="authorText">{review.movieTitle.title}</p>}
                   <p>{review.reviewText}</p>
                   {/* <p>{review.createdAt}</p> */}
                 </Card.Body>
