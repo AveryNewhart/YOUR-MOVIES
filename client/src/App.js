@@ -9,7 +9,7 @@ import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 // import { Switch } from 'react-router-dom';
 import './styles/App.css';
-import AuthService from './utils/auth';
+// import AuthService from './utils/auth';
 
 import Homepage from './pages/Homepage';
 import Signup from './pages/Signup';
@@ -42,15 +42,6 @@ const client = new ApolloClient({
 });
 
 function App() {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // const PrivateRoute = ({ component: Component, ...rest }) => (
-  //   <Route {...rest} render={(props) => (
-  //     loggedIn ? <Component {...props} /> : <Navigate to='/login' />
-  //   )} />
-  // )
-  // const auth = AuthService.loggedIn();
-  // const navigate = useNavigate();
 
   return (
     <ApolloProvider client={client}>
