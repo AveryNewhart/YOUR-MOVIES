@@ -1,8 +1,7 @@
 # YOUR-MOVIES
 
-####  YOUR MOVIES is ....
+- Are you a movie buff looking for an exciting new way to keep track of your favorite films? Look no further than YOUR MOVIES, the ultimate movie website! And the best part? By creating an account, you can quickly search for any movie you want and add it to your watched or watchlist. Plus, there is the option to write reviews on the movies you've seen. Say goodbye to disorganized movie lists and hello to YOUR MOVIES!
 
-#
 
 # Badges
 
@@ -45,8 +44,13 @@ You can use npm run seed, or npm start
 
 # Usage
 
-- put link here
-- put pictures
+- https://yourmovies.herokuapp.com/
+
+![screenshot of website](./client/src/images/homescreen.png)
+
+![screenshot of website](./client/src/images/profile.png)
+
+![screenshot of website](./client/src/images/searched.png)
 
 ## Questions
 
