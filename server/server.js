@@ -22,6 +22,10 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
 
+//This will create a middleware.
+//When you navigate to the root page, it would use the built react-app
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+
 // app.use(routes); //! We do not need this
 
 app.get("*", (req, res) => {
