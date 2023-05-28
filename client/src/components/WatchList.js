@@ -14,6 +14,7 @@ import { REMOVE_WATCHLIST_MOVIE } from '../utils/mutations';
 
 const WatchList = () => {
   const [watchlistData, setWatchlistData] = useState([]);
+  // eslint-disable-next-line
   const [removeMovieFromWatchlist, { error }] = useMutation(REMOVE_WATCHLIST_MOVIE);
   const { loading, data } = useQuery(QUERY_PROTECTED);
   const userData = data?.protected || {};
@@ -26,6 +27,7 @@ const WatchList = () => {
     }
 
     try {
+      // eslint-disable-next-line
       const { data } = await removeMovieFromWatchlist({ variables: { input: { movieId  } } });
 
       // upon success, remove movies id from localStorage
@@ -55,7 +57,7 @@ const WatchList = () => {
         <Row xs={2} md={5} className="g-4">
           {userData.watchlist?.map((movie) => (
             <Col key={movie.movieId} style={{ justifyContent: 'center', display: 'flex', marginBottom: '2rem' }}>
-              <Card style={{ width: '12rem', height: '18rem', borderStyle: 'none' }}>
+              <Card style={{ width: '12rem', borderStyle: 'none' }}>
                 <Card.Img 
                   variant="top" 
                   src={`https://image.tmdb.org/t/p/w500${movie.imageURL}`} 

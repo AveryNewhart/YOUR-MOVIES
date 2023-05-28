@@ -1,10 +1,11 @@
 const { model, Schema } = require("mongoose");
-// const movieSchema = require('./Movie')
+const movieSchema = require('./Movie')
 
 const reviewSchema = new Schema({
   reviewId: {
     type: String,
   },
+  movieTitle: movieSchema,
   reviewAuthor: {
     type: String,
   },

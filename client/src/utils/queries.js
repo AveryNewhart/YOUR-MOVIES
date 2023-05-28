@@ -68,7 +68,9 @@ query protected {
       reviewId
       reviewText
       reviewAuthor
-      createdAt
+      movieTitle {
+        title
+      }
     }
     watchedMovies {
       movieId

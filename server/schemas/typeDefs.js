@@ -20,14 +20,14 @@ const typeDefs = gql`
     password: String!
   }
   type Movie {
-    movieId: ID!
+    movieId: ID
     title: String
     releaseYear: String
     imageURL: String
     overview: String
   }
   input MovieInput {
-    movieId: ID!
+    movieId: ID
     title: String
     releaseYear: String
     imageURL: String
@@ -38,6 +38,7 @@ const typeDefs = gql`
     createdAt: String
     reviewText: String
     reviewAuthor: String
+    movieTitle: Movie
   }
 
   input ReviewInput {
@@ -45,6 +46,7 @@ const typeDefs = gql`
     createdAt: String
     reviewText: String
     reviewAuthor: String
+    movieTitle: MovieInput
   }
 
   type Auth {
@@ -69,7 +71,7 @@ const typeDefs = gql`
     addMovieToWatchlist(movie: MovieInput): User!
     removeWatchedMovie(input: MovieInput): User
     removeMovieFromWatchlist(input: MovieInput): User
-    createReview(review: ReviewInput): User
+    createReview(review: ReviewInput, movieTitle: MovieInput): User
   }
 `;
 // , reviewAuthor: String!

@@ -1,3 +1,37 @@
-.reviewDiv {
-    border: 2px solid green;
+.reviewDivPage.card-body {
+    /* border: 2px solid #c10206;
+    text-align: center; */
+    /* width: 250px; */
 }
+
+.authorText {
+    color: black;
+} 
+
+.reviewDiv.card {
+    width: 400px;
+    border: 2px solid #c10206;
+    text-align: center;
+    overflow: scroll;
+    height: 250px;
+    /* display: block;
+    justify-content: space-evenly; */
+    margin-right: -50px;
+}
+
+.colSmall.col {
+    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    margin-right: 25px;
+}
+
+/* @media (max-width: 765px) {
+    .colSmall.col {
+        width: 100%;
+    }
+
+    .reviewDiv.card {
+        width: 750px;
+    }
+  } */

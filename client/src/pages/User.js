@@ -93,12 +93,12 @@ const User = () => {
   };
 
   return (
-    <div>
+    <div className='backgroundProf'>
       <Navigation />
       <div className='profile'>
         <Container fluid style={styles.containerStyles}>
           <Row xs={1} md={2} className="g-4" style={styles.ProStyles}>
-            <Col md='auto'>
+            <Col md='auto' className='userSmall'>
               <UserCard />
             </Col>
           </Row>

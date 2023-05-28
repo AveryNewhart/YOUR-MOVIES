@@ -6,7 +6,23 @@
 } */
 
 .profile {
-  margin-top: 117px;
+  /* margin-top: 117px; */
   min-width: 100vw;
   min-height: 100vh;
+  background-color: rgba(33, 32, 32, 0.992);
+}
+
+.backgroundProf {
+  background-color: rgba(33, 32, 32, 0.992);
+}
+
+.profMarg {
+  /* background-color: rgba(33, 32, 32, 0.992); */
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.userSmall {
+  
 }

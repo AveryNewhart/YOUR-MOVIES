@@ -1,4 +1,6 @@
-import React from 'react';
+import React
+// , {useState} 
+from 'react';
 import { useQuery, 
     // useMutation
  } from '@apollo/client';
@@ -14,12 +16,14 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
+// import { Movie } from '../../../server/models';
 
 
 const UserReviews = () => {
 //   const [removeReview, { error }] = useMutation(REMOVE_REVIEW);
     const { loading, data } = useQuery(QUERY_PROTECTED);
     const userData = data?.protected || {};
+    // const [movie, setMovie] = useState(null); // set initial state to null
 
   
 //   const handleDeleteREVIEW = async (reviewId) => {
@@ -45,21 +49,13 @@ const UserReviews = () => {
 
   return (
     <Container fluid>
-      <Row xs={2} md={5} className="g-4">
+      <Row>
         {userData.reviews?.map((review) => (
-          <Col key={review.reviewId} style={{ justifyContent: 'center', display: 'flex', marginBottom: '7rem' }}>
-            <Card style={{ width: '12rem', height: '18rem', borderStyle: 'none' }}>
-              {/* <Card.Img 
-                variant="top" 
-                src={`https://image.tmdb.org/t/p/w500${movie.imageURL}`} 
-                alt={movie.title}
-                onClick={() => window.location.href = `http://localhost:3000/movie/${movie.movieId}`}
-                style={{ cursor: 'pointer', borderRadius: '5px' }}
-              /> */}
-
-                <Card.Body className='reviewDiv'>
-                  <Card.Title style={{textAlign: 'center', fontSize: '1rem'}}>{review.reviewAuthor}</Card.Title>
-                  <p></p>
+          <Col className='colSmall' key={review.reviewId} style={{ marginBottom: '7rem' }}>
+            <Card className='reviewDiv'>
+                <Card.Body className='reviewDivPage'>
+                  <Card.Title style={{ fontSize: '1rem'}} className="authorText">{review.reviewAuthor}</Card.Title>
+                  {review.movieTitle && <p className="authorText">{review.movieTitle.title}</p>}
                   <p>{review.reviewText}</p>
                   {/* <p>{review.createdAt}</p> */}
                 </Card.Body>

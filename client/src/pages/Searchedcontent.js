@@ -174,16 +174,28 @@ const SearchedContent = () => {
       }
   
       try {
+        // const reviewedMovie = {
+        //   reviewId: reviewId,
+        //   movieTitle: movie.title,
+        //   // createdAt: review.createdAt,
+        //   reviewAuthor: Auth.getProfile().data.username,
+        //   reviewText: review.reviewText
+        // };
+
         const reviewedMovie = {
           reviewId: reviewId,
-          // createdAt: review.createdAt,
+          movieTitle: {
+            title: movie.title,
+          },
           reviewAuthor: Auth.getProfile().data.username,
-          reviewText: review.reviewText
+          reviewText: review.reviewText,
         };
+
 
   // eslint-disable-next-line
   const { data } = await createReview({
-    variables: { review: reviewedMovie }, // Update this line
+    // variables: { review: reviewedMovie }, // Update this line
+    variables: { review: reviewedMovie, movieTitle: reviewedMovie.movieTitle },
   });
 
       // if the movie successfully saves to the user's account, save the movie id to state
