@@ -14,6 +14,7 @@ import Container from 'react-bootstrap/Container';
 
 
 const WatchedMovies = () => {
+  // eslint-disable-next-line
   const [removeWatchedMovie, { error }] = useMutation(REMOVE_WATCHED_MOVIE);
     const { loading, data } = useQuery(QUERY_PROTECTED);
     const userData = data?.protected || {};
@@ -27,6 +28,7 @@ const WatchedMovies = () => {
     }
 
     try {
+      // eslint-disable-next-line
       const { data } = await removeWatchedMovie({ variables: { input: { movieId  } } });
 
       // upon success, remove book's id from localStorage
@@ -45,7 +47,7 @@ const WatchedMovies = () => {
       <Row xs={2} md={5} className="g-4">
         {userData.watchedMovies?.map((movie) => (
           <Col key={movie.movieId} style={{ justifyContent: 'center', display: 'flex', marginBottom: '7rem' }}>
-            <Card style={{ width: '12rem', height: '18rem', borderStyle: 'none' }}>
+            <Card style={{ width: '12rem', borderStyle: 'none' }}>
               <Card.Img 
                 variant="top" 
                 src={`https://image.tmdb.org/t/p/w500${movie.imageURL}`} 

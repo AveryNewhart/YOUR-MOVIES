@@ -49,20 +49,12 @@ const UserReviews = () => {
 
   return (
     <Container fluid>
-      <Row xs={2} md={5} className="g-4">
+      <Row>
         {userData.reviews?.map((review) => (
-          <Col key={review.reviewId} style={{ justifyContent: 'center', display: 'flex', marginBottom: '7rem' }}>
-            <Card style={{ width: '12rem', height: '18rem', borderStyle: 'none' }}>
-              {/* <Card.Img 
-                variant="top" 
-                src={`https://image.tmdb.org/t/p/w500${movie.imageURL}`} 
-                alt={movie.title}
-                onClick={() => window.location.href = `http://localhost:3000/movie/${movie.movieId}`}
-                style={{ cursor: 'pointer', borderRadius: '5px' }}
-              /> */}
-
+          <Col className='colSmall' key={review.reviewId} style={{ marginBottom: '7rem' }}>
+            <Card className='reviewDiv'>
                 <Card.Body className='reviewDivPage'>
-                  <Card.Title style={{textAlign: 'center', fontSize: '1rem'}} className="authorText">{review.reviewAuthor}</Card.Title>
+                  <Card.Title style={{ fontSize: '1rem'}} className="authorText">{review.reviewAuthor}</Card.Title>
                   {review.movieTitle && <p className="authorText">{review.movieTitle.title}</p>}
                   <p>{review.reviewText}</p>
                   {/* <p>{review.createdAt}</p> */}

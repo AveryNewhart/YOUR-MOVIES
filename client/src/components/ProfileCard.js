@@ -4,10 +4,12 @@ import { useParams } from "react-router-dom";
 import { useQuery } from '@apollo/client';
 import { QUERY_PROTECTED } from "../utils/queries";
 import "../styles/App.css";
+import "../styles/Profile.css";
+
 
 const styles = {
   cardStyles: {
-    width: '18rem',
+    width: '100%',
     padding: '0.5rem',
   }
 }
@@ -32,7 +34,7 @@ const ProfileCard = () => {
   if (!user) return <p>User not found</p>;
 
   return (
-    <Card style={styles.cardStyles}>
+    <Card className='profMarg' style={styles.cardStyles}>
       {/* <Card.Img 
         variant="top" 
         src={user.avatarUrl || 'https://via.placeholder.com/150'}
