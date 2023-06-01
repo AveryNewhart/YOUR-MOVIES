@@ -24,7 +24,7 @@ export default function Welcome() {
         <br></br>
         <p>dlkjhbdkjncljkdncjklsdncljdkncljkdnckljsncdlkjsdncljkdsncdsjklncdskjlnckdj</p>
         <br></br> */}
-
+ 
       </div>
       <div className='welcome-head'>
         <label className="loginL">
